@@ -22,7 +22,7 @@ set path+=**
 set wildmenu
 
 " For ctags
-set tags=./tags;/
+" set tags=./tags;/
 
 
 " Tweaks for browsing (:edit)
@@ -34,12 +34,15 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s)\zs\.\S\+'
 
 
+let mapleader=","
+
 " Search down into subfolders
 " file handler setup
 set tabstop=4
 set softtabstop=4
 set expandtab
-set textwidth=79
+"colorcolumn
+set cc=80
 set number
 set showcmd
 set cursorline
@@ -51,9 +54,8 @@ set foldenable
 nnoremap B ^
 nnoremap E $
 nnoremap gV `[v`]
-let mapleader=","
 inoremap ds <esc>
 nnoremap <leader>u :GundoToggle<CR>
 " possible test nnoremap <leader>s :mksession<CR>
-nnoremap ,s :w 
+nnoremap <leader>s :w<CR> 
 
