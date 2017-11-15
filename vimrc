@@ -59,3 +59,8 @@ nnoremap <leader>u :GundoToggle<CR>
 " possible test nnoremap <leader>s :mksession<CR>
 nnoremap <leader>s :w<CR> 
 
+" Easier navigation through windows
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
