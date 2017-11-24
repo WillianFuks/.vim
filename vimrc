@@ -54,7 +54,7 @@ set foldenable
 nnoremap B ^
 nnoremap E $
 nnoremap gV `[v`]
-inoremap ds <esc>
+inoremap fd <esc>
 nnoremap <leader>u :GundoToggle<CR>
 " possible test nnoremap <leader>s :mksession<CR>
 nnoremap <leader>s :w<CR> 
