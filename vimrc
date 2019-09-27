@@ -66,3 +66,6 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 nnoremap <silent> <leader>q :lclose<bar>b#<bar>bd #<CR>
+
+" Closes Highlit Search
+nnoremap <esc><esc> :noh<cr>
