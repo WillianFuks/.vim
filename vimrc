@@ -69,7 +69,7 @@ Plug 'ntpeters/vim-better-whitespace'
 " Automatically set 'shiftwidth' + 'expandtab' (indention) based on file type.
 Plug 'tpope/vim-sleuth'
 " Markdown support
-Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular' "| Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
 " Best colorscheme ever
 Plug 'sjl/badwolf'
@@ -388,14 +388,6 @@ highlight SignifySignAdd    cterm=bold ctermbg=237  ctermfg=119
 highlight SignifySignDelete cterm=bold ctermbg=237  ctermfg=167
 highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227
 
-" Airline ------------------------------
-
-"let g:airline_powerline_fonts = 0
-"let g:airline_theme = 'bubblegum'
-"let g:airline#extensions#whitespace#enabled = 0
-"let g:airline#extensions#branch#use_vcscommand = 1
-
-
 " Lightline ------------------------------
 
 let g:lightline = {
@@ -424,6 +416,16 @@ let g:lightline.tabline = {
   \ }
 set showtabline=2  " Show tabline
 set guioptions-=e  " Don't use GUI tabline
+
+" vim-markdown ------------------------------
+
+let g:vim_markdown_frontmatter=1
+
+
+" markdown-preview.nvim ------------------------------
+
+let g:mkdp_refresh_slow=1
+let g:mkdp_markdown_css='~/.vim/submodules/github-markdown-css/github-markdown.css'
 
 " ============================================================================
 " mappings
