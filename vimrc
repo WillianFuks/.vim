@@ -118,7 +118,7 @@ filetype indent on
 set clipboard^=unnamed,unnamedplus
 " Copy to clipboard
 " from: https://www.reddit.com/r/neovim/comments/3fricd/easiest_way_to_copy_from_neovim_to_system/
-vnoremap <leader>y  "+y
+vnoremap <leader>y  "*y
 nnoremap <leader>Y  "+yg_
 nnoremap <leader>y  "+y
 nnoremap <leader>yy  "+yy
@@ -437,6 +437,7 @@ nnoremap <esc><esc> :noh<cr>
 nnoremap B ^
 " moves to end of line
 nnoremap E $
+vnoremap E $
 " visual mode for whole code
 nnoremap gV `[v`]
 " leaves insert mode
