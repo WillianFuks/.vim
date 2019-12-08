@@ -3,7 +3,7 @@ Vim setup for coding
 
 Just run `git clone https://github.com/WillianFuks/.vim ~/.vim` and it's done.
 
-### NERDTree
+## NERDTree
 
 `F3` opens NT.
 
@@ -22,7 +22,7 @@ Just run `git clone https://github.com/WillianFuks/.vim ~/.vim` and it's done.
 `gs` vertical file with cursor in tree.
 
 
-### NERDCommenter
+## NERDCommenter
 
 `<leader>cc` comments current line or visual mode selection.
 
@@ -34,12 +34,12 @@ Just run `git clone https://github.com/WillianFuks/.vim ~/.vim` and it's done.
 
 `r` or `R` reloads the tree to find new files.
 
-### TabBar
+## TabBar
 
 Opens a window for tags exploration.
 `F4` Toogles window.
 
-### Ctrlp
+## Ctrlp
 
 `<C-p>` opens fuzzy file finder
 
@@ -47,28 +47,11 @@ Opens a window for tags exploration.
 
 `<F5>` updates ctrlp so new files are shown.
 
-### vim-surround
+## vim-surround
 
 `cs"'` changes `"` to `'`; press `cs` fast otherwise it won't work.
 
-### COC
-
-Conquer of Completion. First time running vim, you should also run
-`:CocInstall coc-python` for Python support.
-
-`<TAB>` to for autocompletion movements
-
-`C space` triggers autocompletion
-
-`<leader>g` jump to nearest defined method
-
-`<leader>d` jumps to furthest possible defined method
-
-`k` opens docstrings
-
-nodejs is required; for installing it, download the sh script, change its mode and run it.
-
-### Signify
+## Signify
 
     `+`     This line was added.
 
@@ -84,11 +67,26 @@ nodejs is required; for installing it, download the sh script, change its mode a
 
     `‾`     The first line was removed. It's a special case of the `_` sign.
 
-### Syntastic
-currently disabled in favor of pymode_python.
+## Syntastic
 
-`,e` runs flake8
+The acticated virtualenv should contain linters installed in order to work. To use flake8:
 
-### Markdown-preview.nvim
+    pip install flake8
+
+Default interpreter is `python3` as specified in the `vimrc` file.
+
+## Markdown-preview.nvim
 
 `:MarkdownPreview` starts github emulator on the browser.
+
+## YouCompleteMe
+
+After installing via `Plug` for the first time, the server still won't work. Go to the folder where YCM was installed (probably `~/.vim/plugged/YouCompleteMe/`) and run
+
+    ./install.sh
+
+After that, it'll work properly.
+
+`<leader>jd` jumps to definition. After jumping, use `Ctrl-O` to come back (`Ctrl-I` will jump forward again).
+
+[Official docs](https://github.com/ycm-core/YouCompleteMe#ycmcompleter-subcommands) have all available commands.
