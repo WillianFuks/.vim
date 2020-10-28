@@ -81,9 +81,16 @@ Default interpreter is `python3` as specified in the `vimrc` file.
 
 ## YouCompleteMe
 
+YCM only works on vim 8.1+ so it has to be installed apart. For doing so just run:
+
+```sh
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt update
+sudo apt install vim
+```
 After installing via `Plug` for the first time, the server still won't work. Go to the folder where YCM was installed (probably `~/.vim/plugged/YouCompleteMe/`) and run
 
-    ./install.sh
+    python3 install.py
 
 After that, it'll work properly.
 

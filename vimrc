@@ -31,6 +31,8 @@ call plug#begin('~/.vim/plugged')
 
 " Better file browser
 Plug 'scrooloose/nerdtree'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plug 'ryanoasis/vim-devicons'
 " Code commenter
 Plug 'scrooloose/nerdcommenter'
 " Class/module browser
@@ -246,9 +248,33 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_python_python_exec = 'python3'
 " use flake8
-"let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_checkers = ['flake8']
 
 " YouCompleteMe ------------------------------
+
+py3 << EOF
+import os
+import sys
+
+
+# When a virtual enironment is activated ENV receives the key 'VIRTUAL_ENV' with the
+# absolute path to the corresponding Python interpreter.
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    site_packages = os.path.join(project_base_dir, 'lib', f'python{sys.version[:3]}',
+				 'site-packages')
+    prev_sys_path = list(sys.path)
+    import site
+    site.addsitedir(site_packages)
+    sys.real_prefix = sys.prefix
+    sys.prefix = project_base_dir
+    new_sys_path = []
+    for item in list(sys.path):
+        if item not in prev_sys_path:
+            new_sys_path.append(item)
+            sys.path.remove(item)
+    sys.path[:0] = new_sys_path
+EOF
 
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
