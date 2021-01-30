@@ -65,6 +65,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'sjl/badwolf'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'sheerun/vim-wombat-scheme'
+"" Python interpreter inside vim
+"Plug 'rosenfeld/conque-term'
 
 if has('python3')
     "" Automatically sort python imports
@@ -134,7 +136,7 @@ set wildmenu
 set tags+=./tags;
 
 " colorcolumn
-set cc=89
+set cc=90
 
 " show line numbers
 set number
@@ -168,7 +170,7 @@ set foldlevel=99
 " Comment this line to enable autocompletion preview window
 " (displays documentation related to the selected completion option)
 " Disabled by default because preview makes the window flicker
-set completeopt-=preview
+" set completeopt-=preview
 
 " better backup, swap and undos storage
 set directory=~/.vim/dirs/tmp     " directory to place swap files in
@@ -357,6 +359,8 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+" Force Redraw After Window Glitche (seems to be related to syntastic)
+nnoremap <C-l> :redraw!<CR>
 " closes current buffer window
 nnoremap <silent> <leader>q :lclose<bar>b#<bar>bd #<CR>
 " simple recursive grep
