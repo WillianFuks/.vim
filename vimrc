@@ -65,6 +65,12 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'sjl/badwolf'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'sheerun/vim-wombat-scheme'
+" HTML helper
+Plug 'mattn/emmet-vim'
+" Vertical lines for indentation clue
+Plug 'Yggdroot/indentLine'
+" Vue highliting
+Plug 'leafOfTree/vim-vue-plugin'
 "" Python interpreter inside vim
 "Plug 'rosenfeld/conque-term'
 
@@ -170,7 +176,7 @@ set foldlevel=99
 " Comment this line to enable autocompletion preview window
 " (displays documentation related to the selected completion option)
 " Disabled by default because preview makes the window flicker
-" set completeopt-=preview
+"set completeopt-=preview
 
 " better backup, swap and undos storage
 set directory=~/.vim/dirs/tmp     " directory to place swap files in
@@ -335,6 +341,23 @@ let g:vim_markdown_frontmatter=1
 let g:mkdp_refresh_slow=1
 let g:mkdp_markdown_css='~/.vim/submodules/github-markdown-css/github-markdown.css'
 
+
+" emmet-vim ------------------------------
+
+"let g:user_emmet_mode='n'
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,vue EmmetInstall
+
+
+" vim-vue-plugin ------------------------------
+
+let g:vim_vue_plugin_use_typescript = 1
+let g:vim_vue_plugin_highlight_vue_attr = 1
+let g:vim_vue_plugin_highlight_vue_keyword = 1
+let g:vim_vue_plugin_use_foldexpr = 1
+let g:vim_vue_plugin_debug = 1
+
+
 " ============================================================================
 " mappings
 
@@ -360,7 +383,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 " Force Redraw After Window Glitche (seems to be related to syntastic)
-nnoremap <C-l> :redraw!<CR>
+nnoremap <leader>l :redraw!<CR>
 " closes current buffer window
 nnoremap <silent> <leader>q :lclose<bar>b#<bar>bd #<CR>
 " simple recursive grep
@@ -375,3 +398,7 @@ nnoremap fc zc
 " For visual moves
 nnoremap j gj
 nnoremap k gk
+" Not an ideal solution but only thing that worked for now (for removing the weird characters).
+" More in: https://stackoverflow.com/questions/62148994/strange-character-since-last-update-42m-in-vim
+let &t_TI = ""
+let &t_TE = ""
