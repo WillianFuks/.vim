@@ -49,7 +49,7 @@ Plug 'Townk/vim-autoclose'
 "" Git/mercurial/others diff icons on the side of the file lines
 Plug 'mhinz/vim-signify'
 "" Python and other languages code checker
-Plug 'scrooloose/syntastic'
+Plug 'dense-analysis/ale'
 "" Ack code search (requires ack installed in the system)
 Plug 'mileszs/ack.vim'
 "" Better display unwanted whitespace.
@@ -62,22 +62,16 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for':
 "" Auto completion
 Plug 'Valloric/YouCompleteMe'
 "" Best colorscheme ever
-Plug 'sjl/badwolf'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sheerun/vim-wombat-scheme'
+"Plug 'sjl/badwolf'
+Plug 'morhetz/gruvbox'
 " HTML helper
 Plug 'mattn/emmet-vim'
 " Vertical lines for indentation clue
 Plug 'Yggdroot/indentLine'
 " Vue highliting
 Plug 'leafOfTree/vim-vue-plugin'
-"" Python interpreter inside vim
-"Plug 'rosenfeld/conque-term'
-
-if has('python3')
-    "" Automatically sort python imports
-    Plug 'fisadev/vim-isort'
-endif
+" isorts Python imports
+Plug 'fisadev/vim-isort'
 
 
 " Tell vim-plug we finished declaring plugins, so it can load them
@@ -100,8 +94,14 @@ set nocompatible
 
 if (&term =~? 'mlterm\|xterm\|xterm-256\|screen-256') || has('nvim')
 	let &t_Co = 256
-    colorscheme badwolf
 endif
+
+if exists('+termguicolors')
+  set termguicolors
+endif
+
+"colorscheme badwolf
+colorscheme gruvbox
 
 " Add syntax highlighting
 if has("syntax")
@@ -176,7 +176,7 @@ set foldlevel=99
 " Comment this line to enable autocompletion preview window
 " (displays documentation related to the selected completion option)
 " Disabled by default because preview makes the window flicker
-"set completeopt-=preview
+set completeopt-=preview
 
 " better backup, swap and undos storage
 set directory=~/.vim/dirs/tmp     " directory to place swap files in
@@ -220,7 +220,7 @@ map <F3> :NERDTreeToggle<CR>
 " open nerdtree with the current file selected
 nmap ,t :NERDTreeFind<CR>
 " don;t show these file types
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '^node_modules$[[dir]]']
 
 " CtrlP ------------------------------
 
@@ -238,41 +238,47 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\.pyc$\|\.pyo$',
   \ }
 
-" Syntastic ------------------------------
-
-" show list of errors and warnings on the current file
-"nmap <leader>e :Errors<CR>
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
-""" don't put icons on the sign column (it hides the vcs status icons of signify)
-let g:syntastic_enable_signs = 1
-let g:syntastic_python_python_exec = 'python3'
-" use flake8
-let g:syntastic_python_checkers = ['flake8']
+" ALE ------------------------------
+let g:ale_fixers = {
+\  'javascript': ['prettier', 'eslint'],
+\  'typescript': ['eslint'],
+\  'vue': ['eslint'],
+\}
+let g:ale_linters_ignore = {'typescript': ['tslint']}
+let g:ale_linters = {
+\  'vue': ['eslint', 'vls'],
+\  'python': ['flake8', 'mypy'],
+\}
+let g:ale_completion_enabled = 0
+let g:ale_completion_autoimport = 0
+let g:ale_sign_column_always = 1
+nmap <silent> <C-]> <Plug>(ale_previous_wrap)
+nmap <silent> <C-[> <Plug>(ale_next_wrap)
+" Only runs when saving the file
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_open_list = 0
+let g:ale_keep_list_window_open = 0
 
 " YouCompleteMe ------------------------------
+
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 py3 << EOF
 import os
 import sys
-
+import glob
 
 # When a virtual enironment is activated ENV receives the key 'VIRTUAL_ENV' with the
 # absolute path to the corresponding Python interpreter.
 if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    site_packages = os.path.join(project_base_dir, 'lib', f'python{sys.version[:3]}',
-				 'site-packages')
-    prev_sys_path = list(sys.path)
     import site
+
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    py_ver = glob.glob(f'{project_base_dir}/lib/python3*' )[0].split('/')[-1]
+    site_packages = os.path.join(project_base_dir, 'lib', f'{py_ver}', 'site-packages')
+    prev_sys_path = list(sys.path)
     site.addsitedir(site_packages)
     sys.real_prefix = sys.prefix
     sys.prefix = project_base_dir
@@ -285,11 +291,10 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
+nnoremap <leader>gd :YcmCompleter GetDoc<CR>
 
 " Signify ------------------------------
 
-" this first setting decides in which order try to guess your current vcs
-" UPDATE it to reflect your preferences, it will speed up opening files
 let g:signify_vcs_list = [ 'git', 'hg' ]
 "" mappings to jump to changed blocks
 nmap <leader>sn <plug>(signify-next-hunk)
@@ -305,7 +310,7 @@ highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227
 " Lightline ------------------------------
 
 let g:lightline = {
-  \   'colorscheme': 'wombat',
+  \   'colorscheme': 'gruvbox',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
   \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
@@ -319,10 +324,10 @@ let g:lightline = {
   \   }
   \ }
 let g:lightline.separator = {
-	\   'left': '', 'right': ''
+	\   'left': '|', 'right': '|'
   \}
 let g:lightline.subseparator = {
-	\   'left': '', 'right': ''
+	\   'left': '|', 'right': '|'
   \}
 let g:lightline.tabline = {
   \   'left': [ ['tabs'] ],
@@ -357,6 +362,9 @@ let g:vim_vue_plugin_highlight_vue_keyword = 1
 let g:vim_vue_plugin_use_foldexpr = 1
 let g:vim_vue_plugin_debug = 1
 
+
+" indentline ------------------------------
+let g:indentLine_char = '┊'
 
 " ============================================================================
 " mappings
@@ -400,5 +408,5 @@ nnoremap j gj
 nnoremap k gk
 " Not an ideal solution but only thing that worked for now (for removing the weird characters).
 " More in: https://stackoverflow.com/questions/62148994/strange-character-since-last-update-42m-in-vim
-let &t_TI = ""
-let &t_TE = ""
+"let &t_TI = ""
+"let &t_TE = ""
