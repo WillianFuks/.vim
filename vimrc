@@ -72,6 +72,8 @@ Plug 'Yggdroot/indentLine'
 Plug 'leafOfTree/vim-vue-plugin'
 " isorts Python imports
 Plug 'fisadev/vim-isort'
+" Multiple Cursors
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 
 " Tell vim-plug we finished declaring plugins, so it can load them
@@ -116,7 +118,7 @@ filetype indent on
 set clipboard^=unnamed,unnamedplus
 " Copy to clipboard
 " from: https://www.reddit.com/r/neovim/comments/3fricd/easiest_way_to_copy_from_neovim_to_system/
-vnoremap <leader>y  "*y
+vnoremap <leader>y  "+y
 nnoremap <leader>Y  "+yg_
 nnoremap <leader>y  "+y
 nnoremap <leader>yy  "+yy
@@ -356,11 +358,24 @@ autocmd FileType html,css,vue EmmetInstall
 
 " vim-vue-plugin ------------------------------
 
-let g:vim_vue_plugin_use_typescript = 1
-let g:vim_vue_plugin_highlight_vue_attr = 1
-let g:vim_vue_plugin_highlight_vue_keyword = 1
-let g:vim_vue_plugin_use_foldexpr = 1
-let g:vim_vue_plugin_debug = 1
+"let g:vim_vue_plugin_use_typescript = 1
+"let g:vim_vue_plugin_highlight_vue_attr = 1
+"let g:vim_vue_plugin_highlight_vue_keyword = 1
+"let g:vim_vue_plugin_use_foldexpr = 1
+"let g:vim_vue_plugin_debug = 1
+let g:vim_vue_plugin_config = {
+      \'syntax': {
+      \   'template': ['html'],
+      \   'script': ['javascript', 'typescript'],
+      \   'style': ['css', 'scss', 'sass'],
+      \},
+      \'full_syntax': [],
+      \'initial_indent': [],
+      \'attribute': 1,
+      \'keyword': 1,
+      \'foldexpr': 1,
+      \'debug': 0,
+      \}
 
 
 " indentline ------------------------------
@@ -397,15 +412,18 @@ nnoremap <silent> <leader>q :lclose<bar>b#<bar>bd #<CR>
 " simple recursive grep
 nnoremap ,r :Ack
 nnoremap ,wr :Ack <cword><CR>
-" Map Fold Toggle from zi to ft
-nnoremap ft zi
+" Map Fold Toggle from zi to ft [UPDATE]: as fc is a native command to jump to
+" character c then these shortcuts starting with `f` were removed.
+"nnoremap ft zi
 " Map Fold Open from za to fo
-nnoremap fo za
+"nnoremap fo za
 " Map Fold Close from zc to fc
-nnoremap fc zc
+"nnoremap fc zc
 " For visual moves
 nnoremap j gj
 nnoremap k gk
+" Deletes until end of line with dE instead of d$
+nnoremap dE d$
 " Not an ideal solution but only thing that worked for now (for removing the weird characters).
 " More in: https://stackoverflow.com/questions/62148994/strange-character-since-last-update-42m-in-vim
 "let &t_TI = ""

@@ -96,4 +96,16 @@ After that, it'll work properly.
 
 `<leader>jd` jumps to definition. After jumping, use `Ctrl-O` to come back (`Ctrl-I` will jump forward again).
 
+For JS/TS support, install TSServer, node and npm (`
+npm install -g typescript-language-server typescript
+`) and then run:
+
+    python3 install.py --ts-completer
+
+The files jsconfig.json or tsconfig.json is what sets the directives for completion and linter.
+
 [Official docs](https://github.com/ycm-core/YouCompleteMe#ycmcompleter-subcommands) have all available commands.
+
+## Useful References
+
+    https://devhints.io/vim
